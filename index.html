@@ -994,7 +994,8 @@
       
         
           
-            <h2 id="Write-Helper-Functions-Instead-of-Complex-Expressions"><a href="#Write-Helper-Functions-Instead-of-Complex-Expressions" class="headerlink" title="Write Helper Functions Instead of Complex Expressions"></a>Write Helper Functions Instead of Complex Expressions</h2><p>＊python語法很容易讓你寫出太複雜難讀的 single-line expressions。</p>
+            <p><img src="/2016/01/11/2016-01-11-effective-python-bi-ji-item-4/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+<h2 id="Write-Helper-Functions-Instead-of-Complex-Expressions"><a href="#Write-Helper-Functions-Instead-of-Complex-Expressions" class="headerlink" title="Write Helper Functions Instead of Complex Expressions"></a>Write Helper Functions Instead of Complex Expressions</h2><p>＊python語法很容易讓你寫出太複雜難讀的 single-line expressions。</p>
 <p>＊將複雜 expressions 移到 helper functions, 特別是你需重復使用相同的logic。</p>
 <p>＊用 if else expression 代替 or 和 and 可讓你更好讀。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">red = int(my_value.get(<span class="string">'red'</span>, [<span class="string">''</span>])[<span class="number">0</span>] <span class="keyword">or</span> <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
@@ -1154,7 +1155,8 @@
       
         
           
-            <h2 id="Know-the-Differences-Between-bytes-str-and-unicode"><a href="#Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="Know the Differences Between bytes, str, and unicode"></a>Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
+            <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+<h2 id="Know-the-Differences-Between-bytes-str-and-unicode"><a href="#Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="Know the Differences Between bytes, str, and unicode"></a>Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
 <p>＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">二進位的位元組(Byte)(ex.0100 1010) -&gt;  </span><br><span class="line">16進位來顯示(ex. 4A) -&gt;</span><br><span class="line">ASCII表 -&gt;</span><br><span class="line">A</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">＊Unicode 一開頭的兩個位元組（ff fe）是用來識別檔案採用的位元組順序，稱為BOM（byte order mark），之後使用**兩個位元組**(固定)來儲存每個Unicode字元。  (ref. Unicode 與 UTF)</span><br><span class="line"></span><br><span class="line">＊ Unicode的實作方式之一 UTF-8（8-bit Unicode Transformation Format），使用可變長度位元組的方式來儲存字元，一個字元的儲存長度可從一個位元組到四個位元組(ref. UTF-8)</span><br><span class="line"></span><br><span class="line">＊ python2 是以 **ASCII 編碼** 來解讀原始碼，所以若沒有打上Encoding declaration 宣告原始碼為 UTF-8 來編碼，打中文就會發生錯誤。   </span><br><span class="line"></span><br><span class="line">＊ python2 中 **str** 與 **unicode** 可表示字元序列(sequences of characters)。</span><br></pre></td></tr></table></figure></p>
 <p>python2<br>|<strong> str: raw 8-bit values<br>|</strong> unicode: Unicode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">＊ python3 中 bytes 與 str 可表示字元序列(sequences of characters)</span><br></pre></td></tr></table></figure></p>
 <p>python3<br>|<strong> bytes: raw 8-bit values<br>|</strong> str: Unicode<br><code>`</code></p>
@@ -1314,7 +1316,8 @@
       
         
           
-            <p>##Follow the PEP 8 Style Guide  </p>
+            <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-2/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+<p>##Follow the PEP 8 Style Guide  </p>
 <p>＊ 遵守 PEP8 (Python Enhancement Proposal #8)風格，這份指南會一直被更新。</p>
 <p>＊ 「The Zen of Python states: “There should be one—and preferably only one—obvious way to do it.” 」(應該只有一個也是偏好的唯一一個，達成目標的明顯做法)。</p>
 <p>[reference]<br>＊ <a href="https://www.python.org/dev/peps/pep-0008/" target="_blank" rel="noopener">PEP 0008 – Style Guide for Python Code</a></p>
@@ -1470,7 +1473,8 @@
       
         
           
-            <p>##Know Which Version of Python You’re Using  </p>
+            <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-1/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+<p>##Know Which Version of Python You’re Using  </p>
 <p>＊ python2 發展上己經涷結，而 python3 不斷的發展，下個python 專案強烈建議用 python 3。</p>
 <p>＊ python2 轉成 python 3 的工具有 2to3 和 six。</p>
 
@@ -1625,7 +1629,8 @@
       
         
           
-            <p>參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。</p>
+            <p><img src="/2016/01/06/2016-01-06-effective-python-bi-ji/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+<p>參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。</p>
 <p>根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。</p>
 <p><a href="http://www.effectivepython.com" target="_blank" rel="noopener">effective python</a></p>
 <p>[reference]<br>＊<a href="http://docs.python-guide.org/en/latest/writing/reading/" target="_blank" rel="noopener">Reading Great Code</a><br>＊<a href="http://www.ithome.com.tw/voice/101196" target="_blank" rel="noopener">我的原始碼閱讀之道</a><br>＊<a href="http://www.m.sanmin.com.tw/Product/Index/001349089" target="_blank" rel="noopener">軟件開發者路線圖：從學徒到高手(譯本)</a><br>＊<a href="http://www.effectivepython.com" target="_blank" rel="noopener">effective python</a><br>＊<a href="http://www.books.com.tw/products/0010687746" target="_blank" rel="noopener">effective python中文版</a></p>

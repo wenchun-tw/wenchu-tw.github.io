@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;A">
+<meta name="description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;">
 <meta name="keywords" content="Python,Effective Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective Python 筆記 : Item 3">
 <meta property="og:url" content="https://wenchun-tw.github.io/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/index.html">
 <meta property="og:site_name" content="Huang Wen-Chun">
-<meta property="og:description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;A">
+<meta property="og:description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-04-12T06:17:17.000Z">
+<meta property="og:image" content="https://wenchun-tw.github.io/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/post_title.png">
+<meta property="og:updated_time" content="2018-04-12T13:25:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Effective Python 筆記 : Item 3">
-<meta name="twitter:description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;A">
+<meta name="twitter:description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;">
+<meta name="twitter:image" content="https://wenchun-tw.github.io/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/post_title.png">
 
 
 
@@ -363,7 +365,8 @@
       
 
       
-        <h2 id="Know-the-Differences-Between-bytes-str-and-unicode"><a href="#Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="Know the Differences Between bytes, str, and unicode"></a>Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
+        <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+<h2 id="Know-the-Differences-Between-bytes-str-and-unicode"><a href="#Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="Know the Differences Between bytes, str, and unicode"></a>Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
 <p>＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">二進位的位元組(Byte)(ex.0100 1010) -&gt;  </span><br><span class="line">16進位來顯示(ex. 4A) -&gt;</span><br><span class="line">ASCII表 -&gt;</span><br><span class="line">A</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">＊Unicode 一開頭的兩個位元組（ff fe）是用來識別檔案採用的位元組順序，稱為BOM（byte order mark），之後使用**兩個位元組**(固定)來儲存每個Unicode字元。  (ref. Unicode 與 UTF)</span><br><span class="line"></span><br><span class="line">＊ Unicode的實作方式之一 UTF-8（8-bit Unicode Transformation Format），使用可變長度位元組的方式來儲存字元，一個字元的儲存長度可從一個位元組到四個位元組(ref. UTF-8)</span><br><span class="line"></span><br><span class="line">＊ python2 是以 **ASCII 編碼** 來解讀原始碼，所以若沒有打上Encoding declaration 宣告原始碼為 UTF-8 來編碼，打中文就會發生錯誤。   </span><br><span class="line"></span><br><span class="line">＊ python2 中 **str** 與 **unicode** 可表示字元序列(sequences of characters)。</span><br></pre></td></tr></table></figure></p>
 <p>python2<br>|<strong> str: raw 8-bit values<br>|</strong> unicode: Unicode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">＊ python3 中 bytes 與 str 可表示字元序列(sequences of characters)</span><br></pre></td></tr></table></figure></p>
 <p>python3<br>|<strong> bytes: raw 8-bit values<br>|</strong> str: Unicode<br><code>`</code></p>
