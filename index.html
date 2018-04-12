@@ -259,164 +259,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Huang Wen-Chun">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Huang Wen-Chun">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/" itemprop="url">如何透過 Vagrant，快速建立Jenkins</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-01-14T16:59:40+08:00">
-                2016-01-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分類於</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programmer/" itemprop="url" rel="index">
-                    <span itemprop="name">Programmer</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programmer/Vagrant/" itemprop="url" rel="index">
-                    <span itemprop="name">Vagrant</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><img src="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.vagrantup.com/ & https://jenkins.io/ "></p>
-<h2 id="安裝步驟"><a href="#安裝步驟" class="headerlink" title="安裝步驟"></a>安裝步驟</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 透過Vagrant建立CentOS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 先下載Vagrant box </span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 檔案會下載至 ~/.vagrant.d/boxes</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># centos64 是為了這個box取的名稱</span></span></span><br><span class="line">vagrant box add centos64 https://github.com/2creatives/vagrant-centos/releases/download/v6.4.2/centos64-x86_64-20140116.box</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">建立Vagrant的資料夾</span></span><br><span class="line">mkdir your_path/jenkins_vm_project</span><br><span class="line">cd your_path/jenkins_vm_project</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">透過剛剛下載的 centos64.box 來建立vagrant vm</span></span><br><span class="line"><span class="meta">#</span><span class="bash">會產生Vagrant file</span></span><br><span class="line">vagrant init centos64 </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">修改產生出的Vagrant file, 修改後存檔</span></span><br><span class="line"><span class="meta">#</span><span class="bash">vagrant 啟動時加入bootstrap.sh</span></span><br><span class="line">config.vm.provision :shell, path: "bootstrap.sh" </span><br><span class="line"><span class="meta">#</span><span class="bash">將 host 的 8080 port 轉向VM的 8080 port</span></span><br><span class="line">config.vm.network "forwarded_port", guest: 8080, host: 8080</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">在your_path/jenkins_vm_project 目錄下建立bootstrap.sh，並寫上Jenkins的安裝步驟, 內容於下方block。</span></span><br><span class="line">vim bootstrap.sh </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">啟動Vagrant </span></span><br><span class="line">vagrant up</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">p.s. Jenkins 需要 java1.7版本以上。</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/#more" rel="contents">
-              閱讀全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2016/01/14/2016-01-14-ansible-bi-ji-loop-items-plus-conditionls/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -575,7 +417,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/">
+    <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Huang Wen-Chun">
@@ -594,7 +436,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/" itemprop="url">Docker 筆記 : 服務啟動問題</a></h1>
+                <a class="post-title-link" href="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/" itemprop="url">如何透過 Vagrant，快速建立Jenkins</a></h1>
         
 
         <div class="post-meta">
@@ -606,8 +448,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-01-12T15:09:04+08:00">
-                2016-01-12
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-01-14T16:59:40+08:00">
+                2016-01-14
               </time>
             
 
@@ -640,8 +482,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Programmer/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
+                  <a href="/categories/Programmer/Vagrant/" itemprop="url" rel="index">
+                    <span itemprop="name">Vagrant</span>
                   </a>
                 </span>
 
@@ -678,15 +520,15 @@
 
       
         
-          
-            <p><img src="/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.docker.com/"></p>
-<p>在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生</p>
-<p><code>Failed to start docker.service: Unit docker.service is masked.</code></p>
-<p>解法:  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl unmask docker.service</span><br><span class="line">$ systemctl unmask docker.socket</span><br><span class="line">$ systemctl start docker.service</span><br></pre></td></tr></table></figure>
-<p>[reference]<br>＊<a href="https://groups.google.com/forum/#!topic/docker-user/3Sou7Umo0SA" target="_blank" rel="noopener">ubuntu - docker service not starting</a></p>
-
-          
+          <p><img src="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.vagrantup.com/ & https://jenkins.io/ "></p>
+<h2 id="安裝步驟"><a href="#安裝步驟" class="headerlink" title="安裝步驟"></a>安裝步驟</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 透過Vagrant建立CentOS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 先下載Vagrant box </span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 檔案會下載至 ~/.vagrant.d/boxes</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># centos64 是為了這個box取的名稱</span></span></span><br><span class="line">vagrant box add centos64 https://github.com/2creatives/vagrant-centos/releases/download/v6.4.2/centos64-x86_64-20140116.box</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">建立Vagrant的資料夾</span></span><br><span class="line">mkdir your_path/jenkins_vm_project</span><br><span class="line">cd your_path/jenkins_vm_project</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">透過剛剛下載的 centos64.box 來建立vagrant vm</span></span><br><span class="line"><span class="meta">#</span><span class="bash">會產生Vagrant file</span></span><br><span class="line">vagrant init centos64 </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">修改產生出的Vagrant file, 修改後存檔</span></span><br><span class="line"><span class="meta">#</span><span class="bash">vagrant 啟動時加入bootstrap.sh</span></span><br><span class="line">config.vm.provision :shell, path: "bootstrap.sh" </span><br><span class="line"><span class="meta">#</span><span class="bash">將 host 的 8080 port 轉向VM的 8080 port</span></span><br><span class="line">config.vm.network "forwarded_port", guest: 8080, host: 8080</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">在your_path/jenkins_vm_project 目錄下建立bootstrap.sh，並寫上Jenkins的安裝步驟, 內容於下方block。</span></span><br><span class="line">vim bootstrap.sh </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">啟動Vagrant </span></span><br><span class="line">vagrant up</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">p.s. Jenkins 需要 java1.7版本以上。</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -752,7 +594,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2016/01/12/2016-01-12-docker-bi-ji-an-zhuang/" itemprop="url">Docker 筆記 : 安裝</a></h1>
+                <a class="post-title-link" href="/2016/01/12/2016-01-12-docker-bi-ji-an-zhuang/" itemprop="url">Docker 基礎</a></h1>
         
 
         <div class="post-meta">
@@ -836,14 +678,18 @@
 
       
         
-          
-            <p><img src="/2016/01/12/2016-01-12-docker-bi-ji-an-zhuang/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.docker.com/"></p>
-<p>若系統內己經存在有docker，要update到最新的版本  </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install apt-transport-https</span><br><span class="line">$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9</span><br><span class="line">$ sudo bash -c <span class="string">"echo deb https://get.docker.io/ubuntu docker main &gt; /etc/apt/sources.list.d/docker.list"</span></span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get purge lxc-docker*</span><br><span class="line">$ sudo apt-get install lxc-docker</span><br></pre></td></tr></table></figure>
-<p>[reference]  </p>
-<p>＊<a href="https://docs.docker.com/linux/step_one/" target="_blank" rel="noopener">Install Docker</a><br>＊<a href="http://dockerpool.com/static/books/docker_practice/install/ubuntu.html" target="_blank" rel="noopener">Ubuntu 系列安装 Docker</a><br>＊<a href="http://askubuntu.com/questions/472412/how-do-i-upgrade-docker" target="_blank" rel="noopener">How Do I upgrade Docker</a></p>
-
-          
+          <p><img src="/2016/01/12/2016-01-12-docker-bi-ji-an-zhuang/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.docker.com/"></p>
+<h2 id="使用-Docker-的目的"><a href="#使用-Docker-的目的" class="headerlink" title="使用 Docker 的目的"></a>使用 Docker 的目的</h2><p>對我在使用上有三點很重要的幫助分別為:</p>
+<h3 id="Infrastructure-as-code"><a href="#Infrastructure-as-code" class="headerlink" title="- Infrastructure as code"></a>- Infrastructure as code</h3><p>系統越來越大，安裝的套件越來越多，如果要重新建立起一個新的測試環境，是非常痛苦的一件事，要一步步回想。Docker file 記錄著所需要的套件與安裝的步驟，所以不論是建立測試環境或是在團隊內進行溝通與交接，會減少很多的成本。很多組態設定工具也都是相同的想法(ex. Ansible)。</p>
+<h3 id="獨立於環境，不會讓系統變髒"><a href="#獨立於環境，不會讓系統變髒" class="headerlink" title="-  獨立於環境，不會讓系統變髒"></a>-  獨立於環境，不會讓系統變髒</h3><p>在建置測試系統時，很怕因為安裝或升級某些套件，導致作業系統或其它原有的應用程式無法正常運作，所以保持系統環境的穩定是很重要的一件事。Docker Container 在作業系統的使用者空間獨立執行，與作業系統隔離，所以在開發上不受作業系統套件或版本的影響。</p>
+<h3 id="方便測試各版本系統"><a href="#方便測試各版本系統" class="headerlink" title="- 方便測試各版本系統"></a>- 方便測試各版本系統</h3><p>Docker 快速建立與獨立執行的關係，所以可以很快速的建立各種版本的測試環境。<br></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/12/2016-01-12-docker-bi-ji-an-zhuang/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -993,18 +839,16 @@
 
       
         
-          
-            <p><img src="/2016/01/11/2016-01-11-effective-python-bi-ji-item-4/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+          <p><img src="/2016/01/11/2016-01-11-effective-python-bi-ji-item-4/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
 <h2 id="Write-Helper-Functions-Instead-of-Complex-Expressions"><a href="#Write-Helper-Functions-Instead-of-Complex-Expressions" class="headerlink" title="Write Helper Functions Instead of Complex Expressions"></a>Write Helper Functions Instead of Complex Expressions</h2><p>＊python語法很容易讓你寫出太複雜難讀的 single-line expressions。</p>
 <p>＊將複雜 expressions 移到 helper functions, 特別是你需重復使用相同的logic。</p>
-<p>＊用 if else expression 代替 or 和 and 可讓你更好讀。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">red = int(my_value.get(<span class="string">'red'</span>, [<span class="string">''</span>])[<span class="number">0</span>] <span class="keyword">or</span> <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
-<p>改為下面的方式會比較好讀</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">red = int(my_value.get(<span class="string">'red'</span>, [<span class="string">''</span>])</span><br><span class="line"><span class="keyword">if</span> red[<span class="number">0</span>]:</span><br><span class="line">	red = int(red[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	red = <span class="number">0</span></span><br></pre></td></tr></table></figure>
-<p>更可以寫成 helper function</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_first_int</span><span class="params">(values, key, default=<span class="number">0</span>)</span></span></span><br><span class="line">	found = values.get(key, [''])</span><br><span class="line">	<span class="keyword">if</span> found[<span class="number">0</span>]:</span><br><span class="line">		found = int(found[<span class="number">0</span>])</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		found = default</span><br><span class="line">	<span class="keyword">return</span> found</span><br><span class="line"></span><br><span class="line">red = get_first_int(my_values, <span class="string">'red'</span>)</span><br></pre></td></tr></table></figure>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/11/2016-01-11-effective-python-bi-ji-item-4/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1154,18 +998,17 @@
 
       
         
-          
-            <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
+          <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
 <h2 id="Know-the-Differences-Between-bytes-str-and-unicode"><a href="#Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="Know the Differences Between bytes, str, and unicode"></a>Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
-<p>＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">二進位的位元組(Byte)(ex.0100 1010) -&gt;  </span><br><span class="line">16進位來顯示(ex. 4A) -&gt;</span><br><span class="line">ASCII表 -&gt;</span><br><span class="line">A</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">＊Unicode 一開頭的兩個位元組（ff fe）是用來識別檔案採用的位元組順序，稱為BOM（byte order mark），之後使用**兩個位元組**(固定)來儲存每個Unicode字元。  (ref. Unicode 與 UTF)</span><br><span class="line"></span><br><span class="line">＊ Unicode的實作方式之一 UTF-8（8-bit Unicode Transformation Format），使用可變長度位元組的方式來儲存字元，一個字元的儲存長度可從一個位元組到四個位元組(ref. UTF-8)</span><br><span class="line"></span><br><span class="line">＊ python2 是以 **ASCII 編碼** 來解讀原始碼，所以若沒有打上Encoding declaration 宣告原始碼為 UTF-8 來編碼，打中文就會發生錯誤。   </span><br><span class="line"></span><br><span class="line">＊ python2 中 **str** 與 **unicode** 可表示字元序列(sequences of characters)。</span><br></pre></td></tr></table></figure></p>
-<p>python2<br>|<strong> str: raw 8-bit values<br>|</strong> unicode: Unicode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">＊ python3 中 bytes 與 str 可表示字元序列(sequences of characters)</span><br></pre></td></tr></table></figure></p>
-<p>python3<br>|<strong> bytes: raw 8-bit values<br>|</strong> str: Unicode<br><code>`</code></p>
-<p>＊ python3 中的 str 實體與 Python2 中的 unicode 實體所用的二進位編碼方式並沒有關聯(原因是?)。</p>
-<p>＊ Unicode 字元 -&gt; 二進位資料 encode<br>＊ 二進位資料 -&gt; Unicode 字元 decode</p>
-<p>＊ python3 bytes 和 str 永遠都不會相等 (原因是?)<br>＊ python2 str 若是 7-bit ASCII 那 unicode 與 str 實體就一樣，還可一起運算。</p>
-<h2 id="reference"><a href="#reference" class="headerlink" title="[reference]"></a>[reference]</h2><p> ＊<a href="http://openhome.cc/Gossip/Encoding/TextFile.html" target="_blank" rel="noopener">哪來的純文字檔？</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UnicodeUTF.html" target="_blank" rel="noopener">Unicode 與 UTF</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UTF8.html" target="_blank" rel="noopener">UTF-8</a></p>
-
-          
+<p>＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">二進位的位元組(Byte)(ex.0100 1010) -&gt; 16進位來顯示(ex. 4A) -&gt; ASCII表 -&gt; A</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1317,8 +1160,7 @@
         
           
             <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-2/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
-<p>##Follow the PEP 8 Style Guide  </p>
-<p>＊ 遵守 PEP8 (Python Enhancement Proposal #8)風格，這份指南會一直被更新。</p>
+<h2 id="Follow-the-PEP-8-Style-Guide"><a href="#Follow-the-PEP-8-Style-Guide" class="headerlink" title="Follow the PEP 8 Style Guide"></a>Follow the PEP 8 Style Guide</h2><p>＊ 遵守 PEP8 (Python Enhancement Proposal #8)風格，這份指南會一直被更新。</p>
 <p>＊ 「The Zen of Python states: “There should be one—and preferably only one—obvious way to do it.” 」(應該只有一個也是偏好的唯一一個，達成目標的明顯做法)。</p>
 <p>[reference]<br>＊ <a href="https://www.python.org/dev/peps/pep-0008/" target="_blank" rel="noopener">PEP 0008 – Style Guide for Python Code</a></p>
 
@@ -1474,8 +1316,7 @@
         
           
             <p><img src="/2016/01/07/2016-01-07-effective-python-bi-ji-item-1/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
-<p>##Know Which Version of Python You’re Using  </p>
-<p>＊ python2 發展上己經涷結，而 python3 不斷的發展，下個python 專案強烈建議用 python 3。</p>
+<h2 id="Know-Which-Version-of-Python-You’re-Using"><a href="#Know-Which-Version-of-Python-You’re-Using" class="headerlink" title="Know Which Version of Python You’re Using"></a>Know Which Version of Python You’re Using</h2><p>＊ python2 發展上己經涷結，而 python3 不斷的發展，下個python 專案強烈建議用 python 3。</p>
 <p>＊ python2 轉成 python 3 的工具有 2to3 和 six。</p>
 
           
@@ -1824,13 +1665,167 @@
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2015/12/18/2015-12-18-how-to-install-octopress/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Wen-Chun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Huang Wen-Chun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2015/12/18/2015-12-18-how-to-install-octopress/" itemprop="url">How to install Octopress</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2015-12-18T11:05:26+08:00">
+                2015-12-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programmer/" itemprop="url" rel="index">
+                    <span itemprop="name">Programmer</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programmer/Octopress/" itemprop="url" rel="index">
+                    <span itemprop="name">Octopress</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h2><p>1.先由 github 將 octopress clone 一份下來:  </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span> git clone git://github.com/imathis/octopress.git octopress  </span><br><span class="line"><span class="meta">$</span> cd octopress</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2015/12/18/2015-12-18-how-to-install-octopress/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
 
 
           </div>
@@ -1874,7 +1869,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
