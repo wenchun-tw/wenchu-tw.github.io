@@ -679,7 +679,8 @@
       
         
           
-            <p>在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生</p>
+            <p><img src="/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.docker.com/"></p>
+<p>在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生</p>
 <p><code>Failed to start docker.service: Unit docker.service is masked.</code></p>
 <p>解法:  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl unmask docker.service</span><br><span class="line">$ systemctl unmask docker.socket</span><br><span class="line">$ systemctl start docker.service</span><br></pre></td></tr></table></figure>
@@ -836,7 +837,8 @@
       
         
           
-            <p>若系統內己經存在有docker，要update到最新的版本  </p>
+            <p><img src="/2016/01/12/2016-01-12-docker-bi-ji-an-zhuang/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.docker.com/"></p>
+<p>若系統內己經存在有docker，要update到最新的版本  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install apt-transport-https</span><br><span class="line">$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9</span><br><span class="line">$ sudo bash -c <span class="string">"echo deb https://get.docker.io/ubuntu docker main &gt; /etc/apt/sources.list.d/docker.list"</span></span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get purge lxc-docker*</span><br><span class="line">$ sudo apt-get install lxc-docker</span><br></pre></td></tr></table></figure>
 <p>[reference]  </p>
 <p>＊<a href="https://docs.docker.com/linux/step_one/" target="_blank" rel="noopener">Install Docker</a><br>＊<a href="http://dockerpool.com/static/books/docker_practice/install/ubuntu.html" target="_blank" rel="noopener">Ubuntu 系列安装 Docker</a><br>＊<a href="http://askubuntu.com/questions/472412/how-do-i-upgrade-docker" target="_blank" rel="noopener">How Do I upgrade Docker</a></p>

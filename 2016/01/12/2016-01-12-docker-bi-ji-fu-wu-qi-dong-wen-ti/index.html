@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生 Failed to start docker.service: Unit docker.service is masked. 解法:   123$ systemctl unmask docker.service$ systemctl unmask docker.socket$ s">
+<meta name="description" content="在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生 Failed to start docker.service: Unit docker.service is masked. 解法:   123$ systemctl unmask docker.service$ systemctl unmask docker.socket$">
 <meta name="keywords" content="Docker">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 筆記 : 服務啟動問題">
 <meta property="og:url" content="https://wenchun-tw.github.io/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/index.html">
 <meta property="og:site_name" content="Huang Wen-Chun">
-<meta property="og:description" content="在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生 Failed to start docker.service: Unit docker.service is masked. 解法:   123$ systemctl unmask docker.service$ systemctl unmask docker.socket$ s">
+<meta property="og:description" content="在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生 Failed to start docker.service: Unit docker.service is masked. 解法:   123$ systemctl unmask docker.service$ systemctl unmask docker.socket$">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-04-12T06:17:17.000Z">
+<meta property="og:image" content="https://wenchun-tw.github.io/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/post_title.png">
+<meta property="og:updated_time" content="2018-04-12T10:25:11.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 筆記 : 服務啟動問題">
-<meta name="twitter:description" content="在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生 Failed to start docker.service: Unit docker.service is masked. 解法:   123$ systemctl unmask docker.service$ systemctl unmask docker.socket$ s">
+<meta name="twitter:description" content="在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生 Failed to start docker.service: Unit docker.service is masked. 解法:   123$ systemctl unmask docker.service$ systemctl unmask docker.socket$">
+<meta name="twitter:image" content="https://wenchun-tw.github.io/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/post_title.png">
 
 
 
@@ -363,7 +365,8 @@
       
 
       
-        <p>在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生</p>
+        <p><img src="/2016/01/12/2016-01-12-docker-bi-ji-fu-wu-qi-dong-wen-ti/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="https://www.docker.com/"></p>
+<p>在 Ubuntu 作業環境下，docker 由 v1.6 更新到 v1.9 時，在啟動docker daemon 發生</p>
 <p><code>Failed to start docker.service: Unit docker.service is masked.</code></p>
 <p>解法:  </p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl unmask docker.service</span><br><span class="line">$ systemctl unmask docker.socket</span><br><span class="line">$ systemctl start docker.service</span><br></pre></td></tr></table></figure>
