@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-tw">
+<html class="theme-next mist use-motion" lang="zh-tw">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Python,Effective Python," />
 
 
 
@@ -79,17 +79,18 @@
 
 
 
-<meta name="description" content="##Know the Differences Between bytes, str, and unicode 基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;g">
+<meta name="description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;A">
+<meta name="keywords" content="Python,Effective Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective Python 筆記 : Item 3">
 <meta property="og:url" content="https://wenchun-tw.github.io/2016/01/07/2016-01-07-effective-python-bi-ji-item-3/index.html">
 <meta property="og:site_name" content="Huang Wen-Chun">
-<meta property="og:description" content="##Know the Differences Between bytes, str, and unicode 基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;g">
+<meta property="og:description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;A">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2018-04-11T14:42:54.000Z">
+<meta property="og:updated_time" content="2018-04-12T03:59:42.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Effective Python 筆記 : Item 3">
-<meta name="twitter:description" content="##Know the Differences Between bytes, str, and unicode 基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;g">
+<meta name="twitter:description" content="Know the Differences Between bytes, str, and unicode基礎觀念:   ＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)12345678910111213二進位的位元組(Byte)(ex.0100 1010) -&amp;gt;  16進位來顯示(ex. 4A) -&amp;gt;A">
 
 
 
@@ -97,9 +98,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -219,6 +220,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -304,8 +315,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -341,15 +363,14 @@
       
 
       
-        <p>##Know the Differences Between bytes, str, and unicode</p>
-<p>基礎觀念:  </p>
+        <h2 id="Know-the-Differences-Between-bytes-str-and-unicode"><a href="#Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="Know the Differences Between bytes, str, and unicode"></a>Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
 <p>＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">二進位的位元組(Byte)(ex.0100 1010) -&gt;  </span><br><span class="line">16進位來顯示(ex. 4A) -&gt;</span><br><span class="line">ASCII表 -&gt;</span><br><span class="line">A</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">＊Unicode 一開頭的兩個位元組（ff fe）是用來識別檔案採用的位元組順序，稱為BOM（byte order mark），之後使用**兩個位元組**(固定)來儲存每個Unicode字元。  (ref. Unicode 與 UTF)</span><br><span class="line"></span><br><span class="line">＊ Unicode的實作方式之一 UTF-8（8-bit Unicode Transformation Format），使用可變長度位元組的方式來儲存字元，一個字元的儲存長度可從一個位元組到四個位元組(ref. UTF-8)</span><br><span class="line"></span><br><span class="line">＊ python2 是以 **ASCII 編碼** 來解讀原始碼，所以若沒有打上Encoding declaration 宣告原始碼為 UTF-8 來編碼，打中文就會發生錯誤。   </span><br><span class="line"></span><br><span class="line">＊ python2 中 **str** 與 **unicode** 可表示字元序列(sequences of characters)。</span><br></pre></td></tr></table></figure></p>
 <p>python2<br>|<strong> str: raw 8-bit values<br>|</strong> unicode: Unicode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">＊ python3 中 bytes 與 str 可表示字元序列(sequences of characters)</span><br></pre></td></tr></table></figure></p>
 <p>python3<br>|<strong> bytes: raw 8-bit values<br>|</strong> str: Unicode<br><code>`</code></p>
 <p>＊ python3 中的 str 實體與 Python2 中的 unicode 實體所用的二進位編碼方式並沒有關聯(原因是?)。</p>
 <p>＊ Unicode 字元 -&gt; 二進位資料 encode<br>＊ 二進位資料 -&gt; Unicode 字元 decode</p>
 <p>＊ python3 bytes 和 str 永遠都不會相等 (原因是?)<br>＊ python2 str 若是 7-bit ASCII 那 unicode 與 str 實體就一樣，還可一起運算。</p>
-<p>[reference]<br> ＊<a href="http://openhome.cc/Gossip/Encoding/TextFile.html" target="_blank" rel="noopener">哪來的純文字檔？</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UnicodeUTF.html" target="_blank" rel="noopener">Unicode 與 UTF</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UTF8.html" target="_blank" rel="noopener">UTF-8</a></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="[reference]"></a>[reference]</h2><p> ＊<a href="http://openhome.cc/Gossip/Encoding/TextFile.html" target="_blank" rel="noopener">哪來的純文字檔？</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UnicodeUTF.html" target="_blank" rel="noopener">Unicode 與 UTF</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UTF8.html" target="_blank" rel="noopener">UTF-8</a></p>
 
       
     </div>
@@ -364,6 +385,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/Effective-Python/" rel="tag"># Effective Python</a>
+          
+        </div>
       
 
       
@@ -438,8 +467,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -454,7 +492,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -476,7 +514,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">標籤</span>
                 </a>
               </div>
@@ -500,7 +538,28 @@
       </section>
 
       
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
 
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Know-the-Differences-Between-bytes-str-and-unicode"><span class="nav-number">1.</span> <span class="nav-text">Know the Differences Between bytes, str, and unicode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reference"><span class="nav-number">2.</span> <span class="nav-text">[reference]</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
       
 
     </div>
@@ -531,7 +590,7 @@
 
 
 
-  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -548,11 +607,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
     
@@ -630,13 +684,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>

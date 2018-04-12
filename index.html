@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion" lang="zh-tw">
+<html class="theme-next mist use-motion" lang="zh-tw">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -93,9 +93,9 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Pisces',
+    scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -216,6 +216,16 @@
           </a>
         </li>
       
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
 
       
     </ul>
@@ -249,7 +259,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2018/04/11/2016-08-18-透過Vagrant 快速建立Jenkins/">
+    <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Huang Wen-Chun">
@@ -268,7 +278,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/04/11/2016-08-18-透過Vagrant 快速建立Jenkins/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/" itemprop="url">如何能快透過 Vagrant，建立Jenkins</a></h1>
         
 
         <div class="post-meta">
@@ -280,8 +290,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-04-11T22:42:54+08:00">
-                2018-04-11
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2016-01-14T16:59:40+08:00">
+                2016-01-14
               </time>
             
 
@@ -290,6 +300,39 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分類於</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Vagrant/" itemprop="url" rel="index">
+                    <span itemprop="name">Vagrant</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -319,12 +362,14 @@
 
       
         
-          
-            <p>說明如何能快透過 Vagrant，建立Jenkins。 </p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 透過Vagrant建立CentOS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 先下載Vagrant box </span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 檔案會下載至 ~/.vagrant.d/boxes</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># centos64 是為了這個box取的名稱</span></span></span><br><span class="line">vagrant box add centos64 https://github.com/2creatives/vagrant-centos/releases/download/v6.4.2/centos64-x86_64-20140116.box</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">建立Vagrant的資料夾</span></span><br><span class="line">mkdir your_path/jenkins_vm_project</span><br><span class="line">cd your_path/jenkins_vm_project</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">透過剛剛下載的 centos64.box 來建立vagrant vm</span></span><br><span class="line"><span class="meta">#</span><span class="bash">會產生Vagrant file</span></span><br><span class="line">vagrant init centos64 </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">修改產生出的Vagrant file, 修改後存檔</span></span><br><span class="line"><span class="meta">#</span><span class="bash">vagrant 啟動時加入bootstrap.sh</span></span><br><span class="line">config.vm.provision :shell, path: "bootstrap.sh" </span><br><span class="line"><span class="meta">#</span><span class="bash">將 host 的 8080 port 轉向VM的 8080 port</span></span><br><span class="line">config.vm.network "forwarded_port", guest: 8080, host: 8080</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">在your_path/jenkins_vm_project 目錄下建立bootstrap.sh，並寫上Jenkins的安裝步驟, 內容於下方block。</span></span><br><span class="line">vim bootstrap.sh </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">啟動Vagrant </span></span><br><span class="line">vagrant up</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">p.s. Jenkins 需要 java1.7版本以上。</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/usr/bin/env bash</span></span><br><span class="line"></span><br><span class="line">yum -y install wget</span><br><span class="line">yum -y install vim</span><br><span class="line">yum -y install java-1.7.0-openjdk</span><br><span class="line">yum update</span><br><span class="line"></span><br><span class="line">wget -O /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo</span><br><span class="line">rpm --import http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key</span><br><span class="line">yum -y install jenkins</span><br></pre></td></tr></table></figure>
-
-          
+          <h2 id="安裝步驟"><a href="#安裝步驟" class="headerlink" title="安裝步驟"></a>安裝步驟</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 透過Vagrant建立CentOS</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> 先下載Vagrant box </span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 檔案會下載至 ~/.vagrant.d/boxes</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># centos64 是為了這個box取的名稱</span></span></span><br><span class="line">vagrant box add centos64 https://github.com/2creatives/vagrant-centos/releases/download/v6.4.2/centos64-x86_64-20140116.box</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">建立Vagrant的資料夾</span></span><br><span class="line">mkdir your_path/jenkins_vm_project</span><br><span class="line">cd your_path/jenkins_vm_project</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">透過剛剛下載的 centos64.box 來建立vagrant vm</span></span><br><span class="line"><span class="meta">#</span><span class="bash">會產生Vagrant file</span></span><br><span class="line">vagrant init centos64 </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">修改產生出的Vagrant file, 修改後存檔</span></span><br><span class="line"><span class="meta">#</span><span class="bash">vagrant 啟動時加入bootstrap.sh</span></span><br><span class="line">config.vm.provision :shell, path: "bootstrap.sh" </span><br><span class="line"><span class="meta">#</span><span class="bash">將 host 的 8080 port 轉向VM的 8080 port</span></span><br><span class="line">config.vm.network "forwarded_port", guest: 8080, host: 8080</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">在your_path/jenkins_vm_project 目錄下建立bootstrap.sh，並寫上Jenkins的安裝步驟, 內容於下方block。</span></span><br><span class="line">vim bootstrap.sh </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">啟動Vagrant </span></span><br><span class="line">vagrant up</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash">p.s. Jenkins 需要 java1.7版本以上。</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2016/01/14/2016-08-18-透過Vagrant 快速建立Jenkins/#more" rel="contents">
+              閱讀全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -425,8 +470,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Ansible-Devops/" itemprop="url" rel="index">
-                    <span itemprop="name">Ansible, Devops</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Ansible/" itemprop="url" rel="index">
+                    <span itemprop="name">Ansible</span>
                   </a>
                 </span>
 
@@ -464,8 +520,7 @@
       
         
           
-            <p>目的:</p>
-<p>讓 ansible 利用變數列表的方式，檢查資料夾內是否在存在實際的 rpm 檔存在，若有存在就不需要利用 yum 來進行安裝。其重點在於register會用dict的方式儲存下檢查的檔案的結果。</p>
+            <h2 id="目的"><a href="#目的" class="headerlink" title="目的:"></a>目的:</h2><p>讓 ansible 利用變數列表的方式，檢查資料夾內是否在存在實際的 rpm 檔存在，若有存在就不需要利用 yum 來進行安裝。其重點在於register會用dict的方式儲存下檢查的檔案的結果。</p>
 <p>可以看到 current_rpm 這個變數是以 dict 的型態儲存所有的資訊，所以在最yum的tasks(最下方)中, 要 loop 的 item 就會是 current_rpm 這個變數儲存的資訊 <code>with_items: current_rpm.results</code> ，而 <code>item.item.name</code> 的第一個 item 代表 current_rpm.results 的整個 list，第二個 item就代表 list 中第一個 dict 的 “item” 這個 key。  </p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">var:</span>   </span><br><span class="line"><span class="attr">    list_of_rpms:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">&#123;</span> <span class="attr">name:</span> <span class="string">"poppler-devel"</span><span class="string">,</span> <span class="attr">file:</span> <span class="string">"poppler-devel-0.12.4-3.el6_0.1.x86_64.rpm"</span><span class="string">&#125;</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">&#123;</span> <span class="attr">name:</span> <span class="string">"poppler-glib-devel"</span><span class="string">,</span> <span class="attr">file:</span> <span class="string">"poppler-glib-devel-0.12.4-3.el6_0.1.x86_64.rpm"</span><span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">Tasks:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">check</span> <span class="string">for</span> <span class="string">rpm</span> <span class="string">file</span> <span class="string">exists</span></span><br><span class="line"><span class="attr">      stat:</span> <span class="string">path=&#123;</span> <span class="string">&#123;</span> <span class="string">build_path</span> <span class="string">&#125;</span> <span class="string">&#125;/etqpf_rpm/&#123;</span> <span class="string">&#123;</span> <span class="string">item.file</span> <span class="string">&#125;</span> <span class="string">&#125;</span></span><br><span class="line"><span class="attr">      register:</span> <span class="string">current_rpm</span></span><br><span class="line"><span class="attr">      with_items:</span> <span class="string">list_of_rpms</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - debug:</span> <span class="string">var=current_rpm</span> <span class="comment">#可以印出這個變數的內容</span></span><br><span class="line"></span><br><span class="line"><span class="attr">    - name:</span> <span class="string">rpm</span> <span class="string">does</span> <span class="string">not</span> <span class="string">in</span> <span class="string">directory</span> <span class="string">,</span> <span class="string">running</span> <span class="string">yum</span></span><br><span class="line"><span class="attr">      yum:</span> <span class="string">name="&#123;</span> <span class="string">&#123;</span> <span class="string">item.item.name</span> <span class="string">&#125;</span> <span class="string">&#125;"</span> <span class="string">state=latest</span></span><br><span class="line"><span class="attr">      when:</span> <span class="string">"&#123; &#123; item.stat.exists &#125; &#125; == False"</span></span><br><span class="line"><span class="attr">      with_items:</span> <span class="string">current_rpm.results</span></span><br></pre></td></tr></table></figure>
 
@@ -570,8 +625,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
                   </a>
                 </span>
 
@@ -716,8 +782,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/docker/" itemprop="url" rel="index">
-                    <span itemprop="name">docker</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Docker/" itemprop="url" rel="index">
+                    <span itemprop="name">Docker</span>
                   </a>
                 </span>
 
@@ -861,8 +938,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1010,8 +1098,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1049,15 +1148,14 @@
       
         
           
-            <p>##Know the Differences Between bytes, str, and unicode</p>
-<p>基礎觀念:  </p>
+            <h2 id="Know-the-Differences-Between-bytes-str-and-unicode"><a href="#Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="Know the Differences Between bytes, str, and unicode"></a>Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
 <p>＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">二進位的位元組(Byte)(ex.0100 1010) -&gt;  </span><br><span class="line">16進位來顯示(ex. 4A) -&gt;</span><br><span class="line">ASCII表 -&gt;</span><br><span class="line">A</span><br><span class="line">```  </span><br><span class="line"></span><br><span class="line">＊Unicode 一開頭的兩個位元組（ff fe）是用來識別檔案採用的位元組順序，稱為BOM（byte order mark），之後使用**兩個位元組**(固定)來儲存每個Unicode字元。  (ref. Unicode 與 UTF)</span><br><span class="line"></span><br><span class="line">＊ Unicode的實作方式之一 UTF-8（8-bit Unicode Transformation Format），使用可變長度位元組的方式來儲存字元，一個字元的儲存長度可從一個位元組到四個位元組(ref. UTF-8)</span><br><span class="line"></span><br><span class="line">＊ python2 是以 **ASCII 編碼** 來解讀原始碼，所以若沒有打上Encoding declaration 宣告原始碼為 UTF-8 來編碼，打中文就會發生錯誤。   </span><br><span class="line"></span><br><span class="line">＊ python2 中 **str** 與 **unicode** 可表示字元序列(sequences of characters)。</span><br></pre></td></tr></table></figure></p>
 <p>python2<br>|<strong> str: raw 8-bit values<br>|</strong> unicode: Unicode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">＊ python3 中 bytes 與 str 可表示字元序列(sequences of characters)</span><br></pre></td></tr></table></figure></p>
 <p>python3<br>|<strong> bytes: raw 8-bit values<br>|</strong> str: Unicode<br><code>`</code></p>
 <p>＊ python3 中的 str 實體與 Python2 中的 unicode 實體所用的二進位編碼方式並沒有關聯(原因是?)。</p>
 <p>＊ Unicode 字元 -&gt; 二進位資料 encode<br>＊ 二進位資料 -&gt; Unicode 字元 decode</p>
 <p>＊ python3 bytes 和 str 永遠都不會相等 (原因是?)<br>＊ python2 str 若是 7-bit ASCII 那 unicode 與 str 實體就一樣，還可一起運算。</p>
-<p>[reference]<br> ＊<a href="http://openhome.cc/Gossip/Encoding/TextFile.html" target="_blank" rel="noopener">哪來的純文字檔？</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UnicodeUTF.html" target="_blank" rel="noopener">Unicode 與 UTF</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UTF8.html" target="_blank" rel="noopener">UTF-8</a></p>
+<h2 id="reference"><a href="#reference" class="headerlink" title="[reference]"></a>[reference]</h2><p> ＊<a href="http://openhome.cc/Gossip/Encoding/TextFile.html" target="_blank" rel="noopener">哪來的純文字檔？</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UnicodeUTF.html" target="_blank" rel="noopener">Unicode 與 UTF</a><br> ＊<a href="http://openhome.cc/Gossip/Encoding/UTF8.html" target="_blank" rel="noopener">UTF-8</a></p>
 
           
         
@@ -1160,8 +1258,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1305,8 +1414,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1449,8 +1569,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/python/" itemprop="url" rel="index">
-                    <span itemprop="name">python</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
                   </a>
                 </span>
 
@@ -1594,8 +1725,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/OSX-Parallels-Desktop/" itemprop="url" rel="index">
-                    <span itemprop="name">OSX, Parallels Desktop</span>
+                  <a href="/categories/Programing/" itemprop="url" rel="index">
+                    <span itemprop="name">Programing</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programing/OSX/" itemprop="url" rel="index">
+                    <span itemprop="name">OSX</span>
                   </a>
                 </span>
 
@@ -1721,7 +1863,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -1743,7 +1885,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">標籤</span>
                 </a>
               </div>
@@ -1768,6 +1910,11 @@
 
       
 
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
       
 
     </div>
@@ -1798,7 +1945,7 @@
 
 
 
-  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -1815,11 +1962,6 @@
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
     
@@ -1897,13 +2039,6 @@
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
 
   
 
