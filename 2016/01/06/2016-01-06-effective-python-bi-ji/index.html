@@ -79,19 +79,19 @@
 
 
 
-<meta name="description" content="參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。 根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。 effective p">
+<meta name="description" content="目的參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。 根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。">
 <meta name="keywords" content="Python,Effective Python">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Effective Python 筆記">
 <meta property="og:url" content="https://wenchun-tw.github.io/2016/01/06/2016-01-06-effective-python-bi-ji/index.html">
 <meta property="og:site_name" content="Huang Wen-Chun">
-<meta property="og:description" content="參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。 根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。 effective p">
+<meta property="og:description" content="目的參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。 根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。">
 <meta property="og:locale" content="zh-tw">
 <meta property="og:image" content="https://wenchun-tw.github.io/2016/01/06/2016-01-06-effective-python-bi-ji/post_title.png">
-<meta property="og:updated_time" content="2018-04-12T13:26:09.000Z">
+<meta property="og:updated_time" content="2018-04-17T09:18:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Effective Python 筆記">
-<meta name="twitter:description" content="參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。 根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。 effective p">
+<meta name="twitter:description" content="目的參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。 根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。">
 <meta name="twitter:image" content="https://wenchun-tw.github.io/2016/01/06/2016-01-06-effective-python-bi-ji/post_title.png">
 
 
@@ -366,11 +366,43 @@
 
       
         <p><img src="/2016/01/06/2016-01-06-effective-python-bi-ji/post_title.png" hspace="10px" vspace="10px" style="width: 800px;" title="Effective Python: 59 Specific Ways to Write Better Python"></p>
-<p>參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。</p>
+<h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>參考了 “Reading Great Code” 原本想要單刀直入的在Github上閱讀有關 python open source，要看之前卻不太知道怎麼下手。於是開始找尋其它人的做法。</p>
 <p>根據 “我的原始碼閱讀之道” 和 “軟件開發者路線圖：從學徒到高手(譯本)” 二個參考資料的建議，都有提到Effective 系列的書，所以希望在看別人的源碼前先閱讀這本書並記錄出筆記。</p>
+<a id="more"></a>
 <p><a href="http://www.effectivepython.com" target="_blank" rel="noopener">effective python</a></p>
 <p>[reference]<br>＊<a href="http://docs.python-guide.org/en/latest/writing/reading/" target="_blank" rel="noopener">Reading Great Code</a><br>＊<a href="http://www.ithome.com.tw/voice/101196" target="_blank" rel="noopener">我的原始碼閱讀之道</a><br>＊<a href="http://www.m.sanmin.com.tw/Product/Index/001349089" target="_blank" rel="noopener">軟件開發者路線圖：從學徒到高手(譯本)</a><br>＊<a href="http://www.effectivepython.com" target="_blank" rel="noopener">effective python</a><br>＊<a href="http://www.books.com.tw/products/0010687746" target="_blank" rel="noopener">effective python中文版</a></p>
-
+<hr>
+<h2 id="01-Know-Which-Version-of-Python-You’re-Using"><a href="#01-Know-Which-Version-of-Python-You’re-Using" class="headerlink" title="01. Know Which Version of Python You’re Using"></a>01. Know Which Version of Python You’re Using</h2><p>＊ python2 發展上己經涷結，而 python3 不斷的發展，下個python 專案強烈建議用 python 3。</p>
+<p>＊ python2 轉成 python 3 的工具有 2to3 和 six。</p>
+<hr>
+<h2 id="02-Follow-the-PEP-8-Style-Guide"><a href="#02-Follow-the-PEP-8-Style-Guide" class="headerlink" title="02. Follow the PEP 8 Style Guide"></a>02. Follow the PEP 8 Style Guide</h2><p>＊ 遵守 PEP8 (Python Enhancement Proposal #8)風格，這份指南會一直被更新。</p>
+<p>＊ 「The Zen of Python states: “There should be one—and preferably only one—obvious way to do it.” 」(應該只有一個也是偏好的唯一一個，達成目標的明顯做法)。</p>
+<p>[reference]<br>＊ <a href="https://www.python.org/dev/peps/pep-0008/" target="_blank" rel="noopener">PEP 0008 – Style Guide for Python Code</a></p>
+<hr>
+<h2 id="03-Know-the-Differences-Between-bytes-str-and-unicode"><a href="#03-Know-the-Differences-Between-bytes-str-and-unicode" class="headerlink" title="03. Know the Differences Between bytes, str, and unicode"></a>03. Know the Differences Between bytes, str, and unicode</h2><p>基礎觀念:  </p>
+<p>＊ 純文字文件，不過是編輯器讀取檔案的二進位資料，嘗試對照某個編碼之後，再繪製出對應的字元外觀給你看。(ref. 哪來的純文字檔?)  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">二進位的位元組(Byte)(ex.0100 1010) -&gt; 16進位來顯示(ex. 4A) -&gt; ASCII表 -&gt; A</span><br></pre></td></tr></table></figure>
+<!--more-->
+<p>＊Unicode 一開頭的兩個位元組（ff fe）是用來識別檔案採用的位元組順序，稱為BOM（byte order mark），之後使用<strong>兩個位元組</strong>(固定)來儲存每個Unicode字元。  (ref. Unicode 與 UTF)</p>
+<p>＊ Unicode的實作方式之一 UTF-8（8-bit Unicode Transformation Format），使用可變長度位元組的方式來儲存字元，一個字元的儲存長度可從一個位元組到四個位元組(ref. UTF-8)</p>
+<p>＊ python2 是以 <strong>ASCII 編碼</strong> 來解讀原始碼，所以若沒有打上Encoding declaration 宣告原始碼為 UTF-8 來編碼，打中文就會發生錯誤。   </p>
+<p>＊ python2 中 <strong>str</strong> 與 <strong>unicode</strong> 可表示字元序列(sequences of characters)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python2</span><br><span class="line">|__ str: raw 8-bit values</span><br><span class="line">|__ unicode: Unicode</span><br></pre></td></tr></table></figure>
+<p>＊ python3 中 bytes 與 str 可表示字元序列(sequences of characters)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">python3</span><br><span class="line">|__ bytes: raw 8-bit values</span><br><span class="line">|__ str: Unicode</span><br></pre></td></tr></table></figure>
+<p>＊ python3 中的 str 實體與 Python2 中的 unicode 實體所用的二進位編碼方式並沒有關聯(原因是?)。</p>
+<p>＊ Unicode 字元 -&gt; 二進位資料 encode<br>＊ 二進位資料 -&gt; Unicode 字元 decode</p>
+<p>＊ python3 bytes 和 str 永遠都不會相等 (原因是?)<br>＊ python2 str 若是 7-bit ASCII 那 unicode 與 str 實體就一樣，還可一起運算。</p>
+<p>[reference]<br>＊<a href="http://openhome.cc/Gossip/Encoding/TextFile.html" target="_blank" rel="noopener">哪來的純文字檔？</a><br>＊<a href="http://openhome.cc/Gossip/Encoding/UnicodeUTF.html" target="_blank" rel="noopener">Unicode 與 UTF</a><br>＊<a href="http://openhome.cc/Gossip/Encoding/UTF8.html" target="_blank" rel="noopener">UTF-8</a></p>
+<hr>
+<h2 id="04-Write-Helper-Functions-Instead-of-Complex-Expressions"><a href="#04-Write-Helper-Functions-Instead-of-Complex-Expressions" class="headerlink" title="04. Write Helper Functions Instead of Complex Expressions"></a>04. Write Helper Functions Instead of Complex Expressions</h2><p>＊python語法很容易讓你寫出太複雜難讀的 single-line expressions。</p>
+<p>＊將複雜 expressions 移到 helper functions, 特別是你需重復使用相同的logic。</p>
+<p>＊用 if else expr ession 代替 or 和 and 可讓你更好讀。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">red = int(my_value.get(<span class="string">'red'</span>, [<span class="string">''</span>])[<span class="number">0</span>] <span class="keyword">or</span> <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<p>改為下面的方式會比較好讀</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">red = int(my_value.get(<span class="string">'red'</span>, [<span class="string">''</span>])</span><br><span class="line"><span class="keyword">if</span> red[<span class="number">0</span>]:</span><br><span class="line">	red = int(red[<span class="number">0</span>])</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">	red = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+<p>更可以寫成 helper function</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_first_int</span><span class="params">(values, key, default=<span class="number">0</span>)</span></span></span><br><span class="line">	found = values.get(key, [''])</span><br><span class="line">	<span class="keyword">if</span> found[<span class="number">0</span>]:</span><br><span class="line">		found = int(found[<span class="number">0</span>])</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		found = default</span><br><span class="line">	<span class="keyword">return</span> found</span><br><span class="line"></span><br><span class="line">red = get_first_int(my_values, <span class="string">'red'</span>)</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -412,8 +444,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2016/01/07/2016-01-07-effective-python-bi-ji-item-1/" rel="prev" title="Effective Python 筆記 : Item 1">
-                Effective Python 筆記 : Item 1 <i class="fa fa-chevron-right"></i>
+              <a href="/2016/01/12/2016-01-12-docker-bi-ji-an-zhuang/" rel="prev" title="Docker 基礎筆記">
+                Docker 基礎筆記 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -466,8 +498,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -482,7 +523,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -504,7 +545,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">標籤</span>
                 </a>
               </div>
@@ -527,6 +568,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#01-Know-Which-Version-of-Python-You’re-Using"><span class="nav-number">2.</span> <span class="nav-text">01. Know Which Version of Python You’re Using</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#02-Follow-the-PEP-8-Style-Guide"><span class="nav-number">3.</span> <span class="nav-text">02. Follow the PEP 8 Style Guide</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#03-Know-the-Differences-Between-bytes-str-and-unicode"><span class="nav-number">4.</span> <span class="nav-text">03. Know the Differences Between bytes, str, and unicode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#04-Write-Helper-Functions-Instead-of-Complex-Expressions"><span class="nav-number">5.</span> <span class="nav-text">04. Write Helper Functions Instead of Complex Expressions</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

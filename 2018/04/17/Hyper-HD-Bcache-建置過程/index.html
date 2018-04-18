@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-tw">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Bcache," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="目的傳統硬碟的成本較低的優勢，SSD 硬碟有高速的優點，但取得成本較高。將 SSD 當成 HD 的快取，提高硬碟的 IOPS 與 I/O 的存取速度">
+<meta name="keywords" content="Bcache">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hyper HD Bcache 建置過程">
+<meta property="og:url" content="https://wenchun-tw.github.io/2018/04/17/Hyper-HD-Bcache-建置過程/index.html">
+<meta property="og:site_name" content="Huang Wen-Chun">
+<meta property="og:description" content="目的傳統硬碟的成本較低的優勢，SSD 硬碟有高速的優點，但取得成本較高。將 SSD 當成 HD 的快取，提高硬碟的 IOPS 與 I/O 的存取速度">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499790400952_+2017-07-10+6.12.50.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1508812783004_image.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499680306993_+2017-07-10+5.50.09.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1500458732004_+2017-07-19+6.05.13.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1500458784867_+2017-07-19+6.05.57.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499680522980_+2017-07-10+5.55.09.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499681068969_+2017-07-10+6.04.15.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499681209926_+2017-07-10+6.06.24.png">
+<meta property="og:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1500459936378_+2017-07-19+6.25.08.png">
+<meta property="og:updated_time" content="2018-04-18T09:56:17.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hyper HD Bcache 建置過程">
+<meta name="twitter:description" content="目的傳統硬碟的成本較低的優勢，SSD 硬碟有高速的優點，但取得成本較高。將 SSD 當成 HD 的快取，提高硬碟的 IOPS 與 I/O 的存取速度">
+<meta name="twitter:image" content="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499790400952_+2017-07-10+6.12.50.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":true,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://wenchun-tw.github.io/2018/04/17/Hyper-HD-Bcache-建置過程/"/>
+
+
+
+
+
+  <title>Hyper HD Bcache 建置過程 | Huang Wen-Chun</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Huang Wen-Chun</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            標籤
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分類
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            關於
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://wenchun-tw.github.io/2018/04/17/Hyper-HD-Bcache-建置過程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huang Wen-Chun">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Huang Wen-Chun">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Hyper HD Bcache 建置過程</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-04-17T18:00:13+08:00">
+                2018-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>傳統硬碟的成本較低的優勢，SSD 硬碟有高速的優點，但取得成本較高。將 SSD 當成 HD 的快取，提高硬碟的 IOPS 與 I/O 的存取速度</p>
+<a id="more"></a>
+<h1 id="實驗結果"><a href="#實驗結果" class="headerlink" title="實驗結果"></a>實驗結果</h1><p>先來呈現一下實驗結果，利用 fio 工具測試硬碟四種讀寫狀態，read, write, randread, randwrite。</p>
+<ul>
+<li>/dev/sda6 是 STAT 硬碟做 RAID5的情況。</li>
+<li>/dev/sdb 是 SSD 硬碟。</li>
+<li>/dev/bcache0 是做完 Bcache 。 </li>
+</ul>
+<p>可以看到傳統硬碟透過SSD當Cache後，測試起來的結果在硬碟的吞吐量或硬碟每秒讀寫的次數都有一定程度的提高。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 測試四種狀態，read, write, randread, randwrite</span><br><span class="line"></span><br><span class="line">#read</span><br><span class="line">sudo fio -filename=/dev/bcache0 -direct=1 -iodepth 1 -thread -rw=read -ioengine=psync -bs=16k -size=5G -numjobs=30 -runtime=1000 -group_reporting -name=mytest</span><br><span class="line"></span><br><span class="line">#write</span><br><span class="line">sudo fio -filename=/dev/bcache0 -direct=1 -iodepth 1 -thread -rw=write -ioengine=psync -bs=16k -size=5G -numjobs=30 -runtime=1000 -group_reporting -name=mytest</span><br><span class="line"></span><br><span class="line">#randread</span><br><span class="line">sudo fio -filename=/dev/bcache0 -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=16k -size=5G -numjobs=30 -runtime=1000 -group_reporting -name=mytest</span><br><span class="line"></span><br><span class="line">#randwrite</span><br><span class="line">sudo fio -filename=/dev/bcache0 -direct=1 -iodepth 1 -thread -rw=randwrite -ioengine=psync -bs=16k -size=5G -numjobs=30 -runtime=1000 -group_reporting -name=mytest</span><br></pre></td></tr></table></figure>
+<p>bw：硬碟的吞吐量,<br>iops：硬碟每秒讀寫的次數</p>
+<h2 id="順序讀"><a href="#順序讀" class="headerlink" title="順序讀"></a>順序讀</h2><table>
+<thead>
+<tr>
+<th>裝置</th>
+<th style="text-align:left">TYPE</th>
+<th style="text-align:left">Bcache</th>
+<th style="text-align:left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/dev/sda6</td>
+<td style="text-align:left">read</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">read: io=145859MB, bw=149359KB/s, iops=9334 runt=1000005msec</td>
+</tr>
+<tr>
+<td>/dev/sdb (pure SSD)</td>
+<td style="text-align:left">read</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">read: io=153600MB, bw=669176KB/s, iops=41823, runt=235045msec</td>
+</tr>
+<tr>
+<td>/dev/bcache0</td>
+<td style="text-align:left">read</td>
+<td style="text-align:left">YES</td>
+<td style="text-align:left">read: io=153600MB, bw=585727KB/s, iops=36607, runt=268532msec</td>
+</tr>
+</tbody>
+</table>
+<h2 id="隨機讀"><a href="#隨機讀" class="headerlink" title="隨機讀"></a>隨機讀</h2><table>
+<thead>
+<tr>
+<th>裝置</th>
+<th style="text-align:left">TYPE</th>
+<th style="text-align:left">Bcache</th>
+<th style="text-align:left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/dev/sda6</td>
+<td style="text-align:left">randread</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">read: io=38433MB, bw=39352KB/s, iops=2459, runt=1000066msec</td>
+</tr>
+<tr>
+<td>/dev/sdb (pure SSD)</td>
+<td style="text-align:left">randread</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">read: io=153600MB, bw=667452KB/s, iops=41715, runt=235652msec</td>
+</tr>
+<tr>
+<td>/dev/bcache0</td>
+<td style="text-align:left">randread</td>
+<td style="text-align:left">YES</td>
+<td style="text-align:left">read:io=153600MB, bw=586100KB/s iops=36631, runt=268361msec</td>
+</tr>
+</tbody>
+</table>
+<h2 id="順序寫"><a href="#順序寫" class="headerlink" title="順序寫"></a>順序寫</h2><table>
+<thead>
+<tr>
+<th>裝置</th>
+<th style="text-align:left">TYPE</th>
+<th style="text-align:left">Bcache</th>
+<th style="text-align:left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/dev/sda6</td>
+<td style="text-align:left">write</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">write: io=6146.8MB, bw=6293.2KB/s, iops=393, runt=1000075msec</td>
+</tr>
+<tr>
+<td>/dev/sdb (pure SSD)</td>
+<td style="text-align:left">write</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">write: io=153600MB, bw=283738KB/s, iops=17733, runt=554336msec</td>
+</tr>
+<tr>
+<td>/dev/bcache0</td>
+<td style="text-align:left">write</td>
+<td style="text-align:left">Yes</td>
+<td style="text-align:left">write: io=110620MB, bw=113274KB/s, iops=7079, runt=1000006msec</td>
+</tr>
+</tbody>
+</table>
+<h2 id="隨機寫"><a href="#隨機寫" class="headerlink" title="隨機寫"></a>隨機寫</h2><table>
+<thead>
+<tr>
+<th>裝置</th>
+<th style="text-align:left">TYPE</th>
+<th style="text-align:left">Bcache</th>
+<th style="text-align:left">Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>/dev/sda6</td>
+<td style="text-align:left">randwrite</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">write: io=10636MB, bw=10890KB/s, iops=680, runt=1000079msec</td>
+</tr>
+<tr>
+<td>/dev/sdb (pure SSD)</td>
+<td style="text-align:left">randwrite</td>
+<td style="text-align:left">No</td>
+<td style="text-align:left">write: io=153600MB, bw=276735KB/s, iops=17295, runt=568364msec</td>
+</tr>
+<tr>
+<td>/dev/bcache0</td>
+<td style="text-align:left">randwrite</td>
+<td style="text-align:left">Yes</td>
+<td style="text-align:left">write: io=113982MB, bw=116717KB/s, iops=7294, runt=1000004msec</td>
+</tr>
+</tbody>
+</table>
+<p>P.S. 測試的時候會出現 fio: /dev/bcache0 appears mounted, and ‘allow_mounted_write’ isn’t set. Aborting. 表示你有先做 /dev/bcache0 與目錄的掛載 ，需先umount 掛載目錄，ex sudo umount /bcache</p>
+<hr>
+<h1 id="安裝方法"><a href="#安裝方法" class="headerlink" title="安裝方法"></a>安裝方法</h1><p>原本要實驗二種作業系統，一個是RedHat7 和 Debain9 二個作業系統都在 Kernel 3.10 以上，但 RedHat7 作 bcache 無法產生 /dev/bcache0，過程中沒有出現任何的錯誤，原因是什麼不明，所以直接改用 Debain 9 就可以成功安裝。</p>
+<h2 id="Step1-Bcache-安裝"><a href="#Step1-Bcache-安裝" class="headerlink" title="Step1.  Bcache 安裝"></a>Step1.  Bcache 安裝</h2><p>RedHat 7 git source 安裝 (放棄)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone http://evilpiepirate.org/git/bcache-tools.git</span><br><span class="line">sudo yum install libblkid-devel.x86_64</span><br><span class="line">sudo yum install pkgconfig.x86_64</span><br></pre></td></tr></table></figure></p>
+<p>Debain 9 安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -t iso9660 -o loop /iso/debian-9.0.0-amd64-DVD-1.iso /media/cdrom</span><br><span class="line">sudo vi /etc/apt/sources.list</span><br><span class="line">deb file:/media/cdrom stretch main cntrib</span><br><span class="line">sudo apt-get install build-essential</span><br><span class="line"></span><br><span class="line">#https://packages.debian.org/sid/amd64/bcache-tools/download</span><br><span class="line">sudo dpkg -i bcache-tools_1.0.8-2+b1_amd64.deb</span><br></pre></td></tr></table></figure>
+<p>&lt;當出現 Possible missing firmware 的時候，因為套件沒安裝的關係，所以必需另外安裝&gt;</p>
+<p><img src="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499790400952_+2017-07-10+6.12.50.png" alt=""><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># https://packages.debian.org/stretch/firmware-linux-nonfree</span><br><span class="line"></span><br><span class="line">sudo dpkg -i firmware-amd-graphics_20161130-3_all.deb</span><br><span class="line">sudo dpkg -i firmware-misc-nonfree_20161130-3_all.deb</span><br><span class="line">sudo dpkg -i firmware-linux-nonfree_20161130-3_all.deb</span><br></pre></td></tr></table></figure></p>
+<h2 id="Step-2-準備SATA-amp-SSD-空間"><a href="#Step-2-準備SATA-amp-SSD-空間" class="headerlink" title="Step 2. 準備SATA &amp; SSD 空間"></a>Step 2. 準備SATA &amp; SSD 空間</h2><p>刻意不將全部的/dev/sda 切出來，就是留給做bcache。</p>
+<ol>
+<li><p>fdisk /dev/sda 將剩下的空間給 /dev/sda5，/dev/sda6</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk /dev/sda</span><br></pre></td></tr></table></figure>
+<p> ![]å(<a href="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1508812471074_image.png" target="_blank" rel="noopener">https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1508812471074_image.png</a>)</p>
+</li>
+<li><p>fdisk 後需要重新開機 確定 /dev 下 有sda6 </p>
+<p> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1508812783004_image.png" alt=""></p>
+</li>
+<li><p>設定 SATA</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make-bcache -B /dev/sda6</span><br></pre></td></tr></table></figure>
+<p> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499680306993_+2017-07-10+5.50.09.png" alt=""></p>
+</li>
+<li><p>設定 SSD</p>
+<p> 參考網路上的設定，大約有三種，我採用第三種。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo make-bcache -C /dev/sdb -B /dev/sda6 </span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 其中 —discard 是開啟 SSD的 TRIS，--writeback 是 cache 的讀寫模式</span><br><span class="line"></span><br><span class="line">sudo make-bcache -C /dev/sdb -B /dev/sda6 --discard --writeback</span><br></pre></td></tr></table></figure>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 再加上設定 block bucket</span><br><span class="line"></span><br><span class="line">sudo make-bcache --block 4k --bucket 2M -C /dev/sdb -B /dev/sda5 /dev/sda6 --discard --writeback</span><br></pre></td></tr></table></figure>
+<p> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1500458732004_+2017-07-19+6.05.13.png" alt=""></p>
+<p> 再利用 lsblk 指令就可以看到調整後的樹狀結構</p>
+<p> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1500458784867_+2017-07-19+6.05.57.png" alt=""></p>
+<p> 若遇到問題可以試著清硬碟看看</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wipefs -a /dev/sdb </span><br><span class="line">wipefs -a /dev/sda </span><br></pre></td></tr></table></figure>
+<p> 但有時候會遇到 Can’t open dev /dev/sdb: Device or resource busy，就需要查找誰佔著資源不放了。<br> 就經驗來看， sudo lsof /dev/sdb 會找不到有什麼程序佔著了，重開機就可以了。</p>
+</li>
+<li><p>格式化 /dev/bcache0 </p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.xfs /dev/bcache0</span><br><span class="line">sudo mkfs.xfs /dev/bcache1</span><br></pre></td></tr></table></figure>
+<p> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499680522980_+2017-07-10+5.55.09.png" alt=""></p>
+</li>
+</ol>
+<h2 id="Step-3-掛載-amp-註冊-Bcache-空間"><a href="#Step-3-掛載-amp-註冊-Bcache-空間" class="headerlink" title="Step 3.  掛載&amp;註冊 Bcache 空間"></a>Step 3.  掛載&amp;註冊 Bcache 空間</h2><ol>
+<li><p>掛載 bcache</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /bcache</span><br><span class="line">sudo mount /dev/bcache0 /bcache</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="2">
+<li><p>找到裝置的UUID</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -la /sys/fs/bcache/</span><br></pre></td></tr></table></figure>
+<p> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499681068969_+2017-07-10+6.04.15.png" alt=""></p>
+</li>
+<li><p>註冊 </p>
+<p> 這個 cache-set-uuid  是 SET UUID<br> 如果有二個bcache(bcache0, bcache1) 就用做二次。</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#SET UUID 都一樣</span><br><span class="line">echo 74d15d2xxxxxxxxx &gt;/sys/block/bache0/bcache/attach</span><br><span class="line">echo 74d15d2xxxxxxxxx &gt;/sys/block/bache1/bcache/attach</span><br></pre></td></tr></table></figure>
+<p> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_D18BAB9ECF888593F694F09D240FDE244EB342CFB3FBBB37F1577FC4466DAABB_1499681209926_+2017-07-10+6.06.24.png" alt=""></p>
+</li>
+<li><p>掛載 fstab (要先copy 一份fstab 備份 cp /etc/fstab /etc/fstab.bak)</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid /dev/bcache0 #查UUID</span><br><span class="line">sudo blkid /dev/bcache1 #查UUID</span><br></pre></td></tr></table></figure>
+<p> 最後寫入 /etc/fstab<br> <img src="https://d2mxuefqeaa7sj.cloudfront.net/s_3C81AF9116B1BE2B1087F3787CEF9E0E94ABD34998A731A0AB40DD4BEFDB8E4C_1500459936378_+2017-07-19+6.25.08.png" alt=""></p>
+<p> 做完建議先重新開機看看有沒有問題。</p>
+</li>
+</ol>
+<h2 id="Step-4-停止-Bcache-的方法"><a href="#Step-4-停止-Bcache-的方法" class="headerlink" title="Step 4.  停止 Bcache 的方法"></a>Step 4.  停止 Bcache 的方法</h2><p>停止 bcache 的方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo 1 &gt; /sys/fs/bcache/add98ca3-d397-4e26-bf3c-fb3c46d13930/stop</span><br><span class="line">wipefs -a /dev/sdb</span><br><span class="line">echo 1 &gt; /sys/block/sda/sda6/bcache/stop</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h1 id="問題"><a href="#問題" class="headerlink" title="問題"></a>問題</h1><h2 id="1-如果使用-git-source-compiler-可能會遇到的問題。"><a href="#1-如果使用-git-source-compiler-可能會遇到的問題。" class="headerlink" title="1. 如果使用 git source compiler 可能會遇到的問題。"></a>1. 如果使用 git source compiler 可能會遇到的問題。</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">Don&apos;t inline crc64 for gcc-5 compatability</span><br><span class="line"></span><br><span class="line">This patch is backported from Debian and it fixes the following error:</span><br><span class="line"></span><br><span class="line">bcache.c:125:9: warning: &apos;crc_table&apos; is static but used in inline</span><br><span class="line">function &apos;crc64&apos; which is not static</span><br><span class="line">...</span><br><span class="line">make-bcache.c:277: undefined reference to `crc64&apos;</span><br><span class="line"></span><br><span class="line">Signed-off-by: Vicente Olivert Riera &lt;Vincent.Riera@imgtec.com&gt;</span><br><span class="line"></span><br><span class="line">From: David Mohr &lt;david@mcbf.net&gt;</span><br><span class="line">Date: Tue, 26 May 2015 20:34:31 -0600</span><br><span class="line">Subject: Don&apos;t inline crc64 for gcc-5 compatability</span><br><span class="line"></span><br><span class="line">Forwarded: http://article.gmane.org/gmane.linux.kernel.bcache.devel/2919</span><br><span class="line"></span><br><span class="line">By James Cowgill, see Debian bug #777798</span><br><span class="line">---</span><br><span class="line"> bcache.c | 2 +-</span><br><span class="line"> 1 file changed, 1 insertion(+), 1 deletion(-)</span><br><span class="line"></span><br><span class="line">diff --git a/bcache.c b/bcache.c</span><br><span class="line">index 8f37445..8b4b986 100644</span><br><span class="line">--- a/bcache.c</span><br><span class="line">+++ b/bcache.c</span><br><span class="line">@@ -115,7 +115,7 @@ static const uint64_t crc_table[256] = &#123;</span><br><span class="line">         0x9AFCE626CE85B507ULL</span><br><span class="line"> &#125;;</span><br><span class="line"> </span><br><span class="line">-inline uint64_t crc64(const void *_data, size_t len)</span><br><span class="line">+uint64_t crc64(const void *_data, size_t len)</span><br><span class="line"> &#123;</span><br><span class="line">         uint64_t crc = 0xFFFFFFFFFFFFFFFFULL;</span><br><span class="line">         const unsigned char *data = _data;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">make</span><br><span class="line">sudo make install</span><br><span class="line">lsblk #先看磁碟結構</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.dropbox.com/s/w50mrmdy875ss51/dm-cache.pdf?dl=0" target="_blank" rel="noopener">https://www.dropbox.com/s/w50mrmdy875ss51/dm-cache.pdf?dl=0</a></p>
+<h2 id="2-Redhat-7-遇到的問題是-無法產生相對應的文件點位-sys-fs-bcache-register"><a href="#2-Redhat-7-遇到的問題是-無法產生相對應的文件點位-sys-fs-bcache-register" class="headerlink" title="2. Redhat 7 遇到的問題是 無法產生相對應的文件點位 /sys/fs/bcache/register"></a>2. Redhat 7 遇到的問題是 無法產生相對應的文件點位 /sys/fs/bcache/register</h2><p>網路上有找到有人有遇到相同的問題</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># kernel - 3.10.0-514.el7.x86_64</span><br><span class="line"># bcache是在3.10以后的版本加入mainline的，因此需要3.10以上的内核版本。但是笔者使用Centos 7在3.10.0的内核上进行配置时，发现无法生成相应的配置文件节点，[**测试**](http://lib.csdn.net/base/softwaretest)过程中使用4.3.3版的内核</span><br></pre></td></tr></table></figure>
+<hr>
+<h1 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h1><ul>
+<li><a href="http://zedshadow.leanote.com/post/bcache%E4%BD%BF%E7%94%A8#title-2" target="_blank" rel="noopener">http://zedshadow.leanote.com/post/bcache%E4%BD%BF%E7%94%A8#title-2</a></li>
+<li><a href="http://www.szsandstone.com/html/news/2017-3-16/209.html" target="_blank" rel="noopener">http://www.szsandstone.com/html/news/2017-3-16/209.html</a></li>
+<li><a href="http://www.sysnote.org/2015/08/06/linux-io-stack/#more" target="_blank" rel="noopener">http://www.sysnote.org/2015/08/06/linux-io-stack/#more</a></li>
+<li><a href="http://xiaqunfeng.cc/2017/02/03/Flashcache-vs-Cache-tier/" target="_blank" rel="noopener">http://xiaqunfeng.cc/2017/02/03/Flashcache-vs-Cache-tier/</a></li>
+<li><a href="https://pommi.nethuis.nl/ssd-caching-using-linux-and-bcache/" target="_blank" rel="noopener">https://pommi.nethuis.nl/ssd-caching-using-linux-and-bcache/</a></li>
+<li><a href="https://wsgzao.github.io/post/fio/" target="_blank" rel="noopener">https://wsgzao.github.io/post/fio/</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Bcache/" rel="tag"># Bcache</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/14/2016-01-14-ansible-bi-ji-loop-items-plus-conditionls/" rel="next" title="Ansible 筆記: Loop Items + Conditionls">
+                <i class="fa fa-chevron-left"></i> Ansible 筆記: Loop Items + Conditionls
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Huang Wen-Chun</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">分類</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">標籤</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#目的"><span class="nav-number">1.</span> <span class="nav-text">目的</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#實驗結果"><span class="nav-number"></span> <span class="nav-text">實驗結果</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#順序讀"><span class="nav-number">1.</span> <span class="nav-text">順序讀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隨機讀"><span class="nav-number">2.</span> <span class="nav-text">隨機讀</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#順序寫"><span class="nav-number">3.</span> <span class="nav-text">順序寫</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#隨機寫"><span class="nav-number">4.</span> <span class="nav-text">隨機寫</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安裝方法"><span class="nav-number"></span> <span class="nav-text">安裝方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step1-Bcache-安裝"><span class="nav-number">1.</span> <span class="nav-text">Step1.  Bcache 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-2-準備SATA-amp-SSD-空間"><span class="nav-number">2.</span> <span class="nav-text">Step 2. 準備SATA &amp; SSD 空間</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-3-掛載-amp-註冊-Bcache-空間"><span class="nav-number">3.</span> <span class="nav-text">Step 3.  掛載&amp;註冊 Bcache 空間</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-4-停止-Bcache-的方法"><span class="nav-number">4.</span> <span class="nav-text">Step 4.  停止 Bcache 的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#問題"><span class="nav-number"></span> <span class="nav-text">問題</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-如果使用-git-source-compiler-可能會遇到的問題。"><span class="nav-number">1.</span> <span class="nav-text">1. 如果使用 git source compiler 可能會遇到的問題。</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-Redhat-7-遇到的問題是-無法產生相對應的文件點位-sys-fs-bcache-register"><span class="nav-number">2.</span> <span class="nav-text">2. Redhat 7 遇到的問題是 無法產生相對應的文件點位 /sys/fs/bcache/register</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#參考資料"><span class="nav-number"></span> <span class="nav-text">參考資料</span></a></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huang Wen-Chun</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
